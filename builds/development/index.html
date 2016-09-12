@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DigiDeals</title>
+
+  <script src="js/lib/angular2/es6-shim.min.js"></script>
+  <script src="js/lib/angular2/system-polyfills.js"></script>
+  <script src="js/lib/angular2/angular2-polyfills.js"></script>
+  <script src="js/lib/angular2/system.src.js"></script>
+  <script src="js/lib/angular2/Rx.js"></script>
+  <script src="js/lib/angular2/angular2.dev.js"></script>
+  <script>
+    System.config({
+      packages: {
+        js: {
+          format: 'register',
+          defaultExtension: 'js'
+        }
+      }
+    });
+    System.import('js/boot')
+    .then(null, console.error.bind(console));
+  </script>
+
+</head>
+<body>
+  Digital Game Content Finder
+  <anydeal-rss>Loading...</anydeal-rss>
+</body>
+</html>
