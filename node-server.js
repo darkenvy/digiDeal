@@ -1,15 +1,17 @@
+// ---------------------- Init ------------------------- //
 var express = require('express');
 var FeedParser = require('feedparser');
 var htmlparser = require("htmlparser2");
 var request = require('request');
-var req = request('https://isthereanydeal.com/rss/deals/us/');
+var dealsReq = request('https://isthereanydeal.com/rss/deals/us/');
 var feedparser = new FeedParser({addmeta: false});
 var reg = new RegExp(/isthereanydeal/)
 var priceReg = new RegExp(/\d+\.\d+/)
 var app = express();
 var gamelist = [];
 app.use(express.static(__dirname + '/builds/development'));
-// app.use(cors())
+
+// ------------------ HTML Parser ----------------------- //
 var parser = new htmlparser.Parser({
   onopentag: function(name, attribs){
     if (attribs.href && reg.test(attribs.href)) {
@@ -43,8 +45,8 @@ var parser = new htmlparser.Parser({
 }, {decodeEntities: true});
 
 // -------- Initialize gamelist on start of node -------- //
-req.on('error', function (error) {console.log(error);});
-req.on('response', function (res) {
+dealsReq.on('error', function (error) {console.log(error);});
+dealsReq.on('response', function (res) {
   var stream = this;
   if (res.statusCode != 200) return this.emit('error', new Error('Bad status code'));
   stream.pipe(feedparser);
@@ -58,6 +60,25 @@ feedparser.on('readable', function() {
     parser.end();
   }
 });
+// ----------------- Get Gameart on request ------------- //
+
+var getGameArt = function(searchTerm, res) {
+  var url = 'http://www.giantbomb.com/api/search' + 
+      '?api_key=cd11d03f7a6fdf2162a12561c724593984a6d5b3' + 
+      '&query=' + searchTerm + '&format=json&resources=game' + 
+      '&limit=1&field_list=name,image';
+  var options = {
+    url: url,
+    headers: {'User-Agent': 'DealFinder:RenoMcKenzie.com'}
+  }
+  request(options, function(error, response, body) {
+    if (error) {
+      res.send(error);
+    } else {
+      res.send(JSON.parse(body).results);
+    }
+  });
+}
 
 // ------------------- CORS Middleware ------------------ //
 app.use(function(req, res, next) {
@@ -65,29 +86,13 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-// app.all('/*', function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//   next();
-// });
-// var allowCrossDomain = function(req, res, next) {
-//     res.header('Access-Control-Allow-Origin', 'example.com');
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//     res.header('Access-Control-Allow-Headers', 'Content-Type');
-//     next();
-// }
-
-// app.configure(function() {
-    // app.use(allowCrossDomain);
-    // app.use(express.methodOverride());
-    // app.use(app.router);
-    // app.use(express.static(__dirname + '/public'));
-// });
 
 // ----------------------- Routes ----------------------- //
-// app.get('/', function(req, res) {
-//   res.render('./builds/development/index')
-// })
+
+app.get('/api/game/:name', function(req, res) {
+  // Pass in the res because the res.send is done within this function.
+  getGameArt(req.params.name, res)
+})
 
 app.get('/api/deals', function(req, res) {
   res.send(JSON.stringify(gamelist))
