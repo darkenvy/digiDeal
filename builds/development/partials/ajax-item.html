@@ -1,3 +1,7 @@
 <ul>
-  <li *ngFor="#item of (ajaxData)">{{item.name}}</li>
+  <li *ngFor="#item of (ajaxData)">
+    <b>${{item.price}}</b>
+    <p>{{item.savings}}%</p>
+    <a href="{{item.link}}">{{item.name}}</a>
+  </li>
 </ul>
