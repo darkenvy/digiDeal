@@ -1,0 +1,64 @@
+/* Widths */
+.w100p {
+  width: 100%;
+}
+.w1024 {
+  width: 1024px;
+}
+.w800 {
+  width: 800px;
+}
+.w600 {
+  width: 600px;
+}
+
+.max-width-10 {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.max-width-8 {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.max-width-6 {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Heights */
+.h768 {
+  height: 768px;
+}
+.h600 {
+  height: 600px;
+}
+
+/* Displays */
+.hidden {
+  display: none;
+}
+.inline {
+  display: inline;
+}
+.inline-block {
+  display: inline-block;
+}
+.list-item {
+  display: list-item;
+}
+
+/* Development */
+.place-img {
+  background-image: url('http://lorempixel.com/1024/768');
+  width: 800px;
+  height: 600px;
+}
+
+.margin-0-auto {
+  margin: 0 auto;
+}
+
+/* Shapes */
+.circle {
+  border-radius: 50%;
+}

@@ -1,0 +1,30 @@
+/* Image Filters */
+.brightness {
+  -webkit-filter: brightness(125%);
+  filter: brightness(125%);
+}
+.blur {
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+.contrast {
+  -webkit-filter: contrast(125%);
+  filter: contrast(125%);
+}
+.drop-shadow {
+  -webkit-filter: drop-shadow(4px 4px 5px rgba(0,0,0,0.8));
+  filter: drop-shadow(4px 4px 5px rgba(0,0,0,0.8));
+}
+.grayscale {
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+.opacity {
+  -webkit-filter: opacity(.8);
+  filter: opacity(.8);
+}
+.saturate {
+  -webkit-filter: saturate(125%);
+  filter: saturate(125%);
+}
+

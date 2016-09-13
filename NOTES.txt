@@ -3,3 +3,4 @@ Getting This error? :
 /digiDeal/node_modules/angular2/src/facade/promise.d.ts(1,10): error TS2661: Cannot re-export name that is not defined in the module.
   Add this line below at the top of promise.d.ts to declare the Promise variable will fix the problem:
     declare var Promise: PromiseConstructor;
+

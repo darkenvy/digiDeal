@@ -2,11 +2,14 @@ var gulp = require('gulp'),
     webserver = require('gulp-webserver'),
     typescript = require('gulp-typescript'),
     sourcemaps = require('gulp-sourcemaps'),
-    nodemon = require('gulp-nodemon'), 
+    nodemon = require('gulp-nodemon'),
+    sass = require('gulp-sass'),
+    concat = require('gulp-concat'),
     tscConfig = require('./tsconfig.json');
 
 var appSrc = 'builds/development/',
-    tsSrc = 'process/typescript/';
+    tsSrc = 'process/typescript/',
+    sassSrc = 'process/sass/';
 
 gulp.task('nodemon', function (cb) {
   var started = false;
@@ -26,6 +29,13 @@ gulp.task('nodemon', function (cb) {
 gulp.task('html', function() {
   gulp.src(appSrc + '**/*.html');
 });
+
+gulp.task('sass', function() {
+  gulp.src('process/sass/**/*.scss')
+      .pipe(sass().on('error', sass.logError))
+      .pipe(concat('styles.css'))
+      .pipe(gulp.dest(appSrc + '/css/'))
+})
 
 gulp.task('css', function() {
   gulp.src(appSrc + '**/*.css');
@@ -58,6 +68,8 @@ gulp.task('watch', function() {
   gulp.watch(tsSrc + '**/*.ts', ['typescript']);
   gulp.watch(appSrc + 'css/*.css', ['css']);
   gulp.watch(appSrc + '**/*.html', ['html']);
+  gulp.watch(sassSrc + '**/*.scss', ['sass']);
+
 });
 
 // gulp.task('webserver', function() {
@@ -69,4 +81,4 @@ gulp.task('watch', function() {
 // });
 
 // gulp.task('default', ['nodemon', 'copylibs', 'typescript', 'watch', 'webserver']);
-gulp.task('default', ['nodemon', 'copylibs', 'typescript', 'watch']);
+gulp.task('default', ['copylibs', 'nodemon', 'sass', 'typescript', 'watch']);
