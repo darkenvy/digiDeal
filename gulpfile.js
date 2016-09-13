@@ -2,10 +2,26 @@ var gulp = require('gulp'),
     webserver = require('gulp-webserver'),
     typescript = require('gulp-typescript'),
     sourcemaps = require('gulp-sourcemaps'),
+    nodemon = require('gulp-nodemon'), 
     tscConfig = require('./tsconfig.json');
 
 var appSrc = 'builds/development/',
     tsSrc = 'process/typescript/';
+
+gulp.task('nodemon', function (cb) {
+  var started = false;
+  return nodemon({
+    script: 'node-server.js',
+    ignore: ['builds/*', 'process/*', 'node_modules/*'] 
+  }).on('start', function () {
+    // to avoid nodemon being started multiple times
+    // thanks @matthisk
+    if (!started) {
+      cb();
+      started = true; 
+    } 
+  });
+});
 
 gulp.task('html', function() {
   gulp.src(appSrc + '**/*.html');
@@ -44,12 +60,13 @@ gulp.task('watch', function() {
   gulp.watch(appSrc + '**/*.html', ['html']);
 });
 
-gulp.task('webserver', function() {
-  gulp.src(appSrc)
-    .pipe(webserver({
-      livereload: true,
-      open: true
-    }));
-});
+// gulp.task('webserver', function() {
+//   gulp.src(appSrc)
+//     .pipe(webserver({
+//       livereload: true,
+//       open: true
+//     }));
+// });
 
-gulp.task('default', ['copylibs', 'typescript', 'watch', 'webserver']);
+// gulp.task('default', ['nodemon', 'copylibs', 'typescript', 'watch', 'webserver']);
+gulp.task('default', ['nodemon', 'copylibs', 'typescript', 'watch']);

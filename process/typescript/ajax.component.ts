@@ -14,9 +14,9 @@ export class AjaxComponent {
   ajaxData;
   constructor(http: Http) {
     // http.get('http://swapi.co/api/starships/?format=json')
-    http.get('localhost:3000')
+    http.get('api/deals')
       .map(res => res.json()) // Call map on the response observable to get the parsed people object
-      // .subscribe(data => this.ajaxData = testData); // Subscribe to the observable to get the parsed people object and attach it to the component
-      .subscribe(people => console.log(people));
+      .subscribe(data => this.ajaxData = data); // Subscribe to the observable to get the parsed people object and attach it to the component
+      // .subscribe(people => console.log(people));
   }
 }
