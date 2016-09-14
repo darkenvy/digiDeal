@@ -28,6 +28,10 @@
     "express": "^4.14.0",
     "feedparser": "^1.1.4",
     "htmlparser2": "^3.9.1",
-    "request": "^2.74.0"
+    "pg": "^6.1.0",
+    "pg-hstore": "^2.3.2",
+    "request": "^2.74.0",
+    "sequelize": "^3.24.3",
+    "sequelize-cli": "^2.4.0"
   }
 }
